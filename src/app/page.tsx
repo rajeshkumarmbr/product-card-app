@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import ProductCard from "../../components/ProductCard";
-import ProductModal from "../../components/ProductModal";
-import ThemeToggle from "../../components/ThemeToggle";
-import { Product } from "../../lib/types";
+import ProductCard from "@/components/ProductCard";
+import ProductModal from "@/components/ProductModal";
+import ThemeToggle from "@/components/ThemeToggle";
+import { Product } from "@/lib/types";
 
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -15,13 +15,13 @@ export default function Home() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const baseUrl =
-          process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-        const res = await fetch(`${baseUrl}/api/products`);
+        const res = await fetch("/api/products");
 
         if (res.ok) {
           const data = await res.json();
           setProducts(data);
+        } else {
+          console.error("Failed to fetch products:", res.status);
         }
       } catch (error) {
         console.error("Failed to fetch products:", error);
@@ -68,15 +68,23 @@ export default function Home() {
           Featured Products
         </h1>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {products.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onViewMore={handleViewMore}
-            />
-          ))}
-        </div>
+        {products.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {products.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                onViewMore={handleViewMore}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-12">
+            <p className="text-gray-600 dark:text-gray-400 text-lg">
+              No products available at the moment.
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Product Modal */}

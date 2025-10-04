@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { Product } from "../lib/types";
+import { Product } from "@/lib/types";
 import { useEffect } from "react";
 
 interface ProductModalProps {

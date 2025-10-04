@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { Product } from '../../../../lib/types';
+import { Product } from '@/lib/types';
 
 const products: Product[] = [
   {
